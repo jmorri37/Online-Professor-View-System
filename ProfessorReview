@@ -1,0 +1,22 @@
+CREATE TABLE Administrator (
+    First_name text  NOT NULL,
+    Last_name text  NOT NULL,
+    CONSTRAINT Administrator_name_ UNIQUE (First_name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
+    CONSTRAINT Administrator_pk PRIMARY KEY (First_name)
+);
+
+-- Table: Student
+CREATE TABLE Student (
+    First_name text  NOT NULL,
+    Last_name text  NOT NULL,
+    CONSTRAINT Login_1 UNIQUE (First_name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
+    CONSTRAINT Student_id PRIMARY KEY (First_name)
+);
+
+-- Table: Student_Review
+CREATE TABLE Student_Review (
+    Input text  NOT NULL,
+    Feedback text  NOT NULL,
+    Rate int  NOT NULL,
+    CONSTRAINT Review_1 PRIMARY KEY (Rate)
+);
