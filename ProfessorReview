@@ -1,22 +1,123 @@
-CREATE TABLE Administrator (
+Table: Administrator_id
+CREATE TABLE Administrator_id (
     First_name text  NOT NULL,
     Last_name text  NOT NULL,
+    Admin_Email text  NOT NULL,
+    Report_Content_Prohibited text  NOT NULL,
     CONSTRAINT Administrator_name_ UNIQUE (First_name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
-    CONSTRAINT Administrator_pk PRIMARY KEY (First_name)
+    CONSTRAINT Administrator_id_pk PRIMARY KEY (First_name)
 );
 
--- Table: Student
-CREATE TABLE Student (
-    First_name text  NOT NULL,
-    Last_name text  NOT NULL,
-    CONSTRAINT Login_1 UNIQUE (First_name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
-    CONSTRAINT Student_id PRIMARY KEY (First_name)
+-- Table: Delete_Review
+CREATE TABLE Delete_Review (
+    Delete text  NOT NULL,
+    Report text  NOT NULL,
+    Flag text  NOT NULL,
+    Disable text  NOT NULL,
+    Student_id_First_name text  NOT NULL,
+    CONSTRAINT Delete_Review_1 PRIMARY KEY (Delete)
+);
+
+-- Table: Professor_Search
+CREATE TABLE Professor_Search (
+    Search_Course text  NOT NULL,
+    Course_Num varchar  NOT NULL,
+    Classroom_Num varchar  NOT NULL,
+    Teacher_First_Name text  NOT NULL,
+    Teacher_Last_Name text  NOT NULL,
+    Student_id_First_name text  NOT NULL,
+    CONSTRAINT Find_Course UNIQUE (Teacher_Last_Name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
+    CONSTRAINT Search_Teacher PRIMARY KEY (Teacher_Last_Name)
+);
+
+-- Table: Report_Content
+CREATE TABLE Report_Content (
+    Flagged text  NOT NULL,
+    Prohibited text  NOT NULL,
+    Unfriendly int  NOT NULL,
+    Violates_Policy int  NOT NULL,
+    CONSTRAINT Report_ Inappropriate_Content PRIMARY KEY (Prohibited)
 );
 
 -- Table: Student_Review
 CREATE TABLE Student_Review (
-    Input text  NOT NULL,
+    Submit text  NOT NULL,
     Feedback text  NOT NULL,
     Rate int  NOT NULL,
+    Student_id_First_name text  NULL,
+    Administrator_id_First_name text  NOT NULL,
+    Student_Review_Rate int  NULL,
     CONSTRAINT Review_1 PRIMARY KEY (Rate)
 );
+
+CREATE INDEX Student_Review_idx_1 on Student_Review (Rate ASC,Feedback ASC);
+
+-- Table: Student_id
+CREATE TABLE Student_id (
+    First_name text  NOT NULL,
+    Last_name text  NOT NULL,
+    Admin_Email text  NOT NULL,
+    Student_id_First_name text  NULL,
+    CONSTRAINT Login_1 UNIQUE (First_name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
+    CONSTRAINT Student_id PRIMARY KEY (First_name)
+);
+
+-- foreign keys
+-- Reference: Administrator_id_Report_Content (table: Administrator_id)
+ALTER TABLE Administrator_id ADD CONSTRAINT Administrator_id_Report_Content
+    FOREIGN KEY (Report_Content_Prohibited)
+    REFERENCES Report_Content (Prohibited)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: Delete_Review_Student_id (table: Delete_Review)
+ALTER TABLE Delete_Review ADD CONSTRAINT Delete_Review_Student_id
+    FOREIGN KEY (Student_id_First_name)
+    REFERENCES Student_id (First_name)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: Professor_Search_Student_id (table: Professor_Search)
+ALTER TABLE Professor_Search ADD CONSTRAINT Professor_Search_Student_id
+    FOREIGN KEY (Student_id_First_name)
+    REFERENCES Student_id (First_name)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: Student_Review_Administrator_id (table: Student_Review)
+ALTER TABLE Student_Review ADD CONSTRAINT Student_Review_Administrator_id
+    FOREIGN KEY (Administrator_id_First_name)
+    REFERENCES Administrator_id (First_name)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: Student_Review_Student_Review (table: Student_Review)
+ALTER TABLE Student_Review ADD CONSTRAINT Student_Review_Student_Review
+    FOREIGN KEY (Student_Review_Rate)
+    REFERENCES Student_Review (Rate)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: Student_Review_Student_id (table: Student_Review)
+ALTER TABLE Student_Review ADD CONSTRAINT Student_Review_Student_id
+    FOREIGN KEY (Student_id_First_name)
+    REFERENCES Student_id (First_name)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: Student_id_Student_id (table: Student_id)
+ALTER TABLE Student_id ADD CONSTRAINT Student_id_Student_id
+    FOREIGN KEY (Student_id_First_name)
+    REFERENCES Student_id (First_name)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- End of file.
+
